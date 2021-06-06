@@ -125,9 +125,13 @@ helm version
 version.BuildInfo{Version:"v3.5.4", GitCommit:"1b5edb69df3d3a08df77c9902dc17af864ff05d1", GitTreeState:"clean", GoVersion:"go1.15.11"}
 ```
 add kube-prometheus repo
-```helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
- helm pull prometheus-community/kube-prometheus-stack
- tar xzvf kube-prometheus-stack-11.1.1.tgz
+```
+ $helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+ "prometheus-community" has been added to your repositories
+ $helm repo update
+ ...Successfully got an update from the "prometheus-community" chart repository
+ $helm pull prometheus-community/kube-prometheus-stack
+ $tar xzvf kube-prometheus-stack-11.1.1.tgz
 ```
 Update the value.yaml so we monitor outside of the stack by changing the value of podMonitorSelectorNilUsesHelmValues and serviceMonitorSelectorNilUsesHelmValues<br>
 we also need to create persistent storage class add the into the AlertManger global setting for sending email alert to us. Please check the vaule.yaml for all change <br>
