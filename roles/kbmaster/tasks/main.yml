@@ -1,0 +1,56 @@
+---
+# This role install kubeadm, kubelet, kubectl
+- name: Remove swapfile from /etc/fstab
+  mount:
+    name: "{{ item }}"
+    fstype: swap
+    state: absent
+  with_items:
+    - swap
+    - none
+
+- name: Disable swap
+  command: swapoff -a
+  when: ansible_swaptotal_mb > 0
+
+- name: Add an apt signing key for Kubernetes
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Adding apt repository for Kubernetes
+  apt_repository:
+    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+    filename: kubernetes.list
+
+- name: Install Kubernetes binaries
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+      - kubelet=1.18.3-00
+      - kubeadm=1.18.3-00
+      - kubectl=1.18.3-00
+
+- name: initilize new cluster
+  command: "{{init_command}}"
+
+- name: create kube folder 
+  file:
+    path: $HOME/.kube
+    state: directory
+
+- name: copy kubernetes certs 
+  command: "cp /etc/kubernetes/admin.conf $HOME/.kube/config"
+
+- name: deploy Flannel CNI
+  command: "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
+
+- name: print join command
+  command: "kubeadm token create --print-join-command --ttl '0'"
+  register: out
+
+- debug: var=out.stdout_lines

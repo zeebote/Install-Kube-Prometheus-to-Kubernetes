@@ -1,0 +1,54 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-grafana
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: grafana.yourdomain.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: monitoring-grafana
+          servicePort: 80
+
+---
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-alertmanager
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: alertmanager.yourdomain.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: monitoring-kube-prometheus-alertmanager
+          servicePort: 9093
+
+---
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-prometheus
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: prometheus.yourdomain.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: monitoring-kube-prometheus-prometheus
+          servicePort: 9090

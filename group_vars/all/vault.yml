@@ -1,0 +1,3 @@
+vault_ansible_user: this ansible windows user
+vault_ansible_password: ansible windows user pasword
+vault_join_command: this is your join key

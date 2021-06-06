@@ -1,0 +1,10 @@
+---
+# This handler docker services
+- name: Reload systemD service
+  systemd:
+    daemon_reload: yes
+    
+- name: Reload docker service
+  systemd:
+    name: docker
+    state: restarted

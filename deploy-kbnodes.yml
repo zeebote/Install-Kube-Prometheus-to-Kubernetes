@@ -1,0 +1,10 @@
+---
+# Install Docker to nodes
+- name: Install Kubernetes nodes
+  hosts: all
+  become: True
+  gather_facts: True
+  roles:
+    - docker
+    - kubernetes
+

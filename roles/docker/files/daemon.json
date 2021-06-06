@@ -1,0 +1,7 @@
+{
+    	"exec-opts": ["native.cgroupdriver=systemd"],
+	"dns": ["172.20.20.1", "172.20.20.2"],
+        "log-driver": "json-file",
+        "log-opts": {"max-size": "10m", "max-file": "3"}
+}
+

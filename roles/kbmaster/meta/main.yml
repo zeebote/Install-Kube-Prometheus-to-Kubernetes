@@ -1,0 +1,4 @@
+# roles/kubernetes/meta/main.yml
+---
+dependencies:
+  - role: docker

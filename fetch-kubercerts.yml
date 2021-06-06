@@ -1,0 +1,24 @@
+---
+- hosts: all
+  gather_facts: no
+  become: true
+
+  tasks:
+  - name: create kube folder on remote host
+    file:
+      path: "{{ local_home }}/.kube"
+      state: directory
+
+  - name: copy cert to kube folder on remote host
+    command: "{{ item }}"
+    with_items:
+      - "cp /etc/kubernetes/admin.conf {{ local_home }}/.kube/config"
+      - "chown {{ remote_user }}:{{ remote_user }} {{ local_home }}/.kube/config"
+
+  - name: copy kubernetes certs to manage host
+    become: yes
+    become_user: ubuntu
+    fetch:
+      src: "$HOME/.kube/config"
+      dest: "{{local_home}}/.kube/"
+      flat: yes

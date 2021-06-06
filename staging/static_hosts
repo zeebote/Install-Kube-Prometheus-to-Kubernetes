@@ -1,0 +1,9 @@
+[stage_jenkins]
+jenkins-host
+
+[stage_windows]
+windows-host
+
+[stage_kubernetes]
+master-node
+node1
