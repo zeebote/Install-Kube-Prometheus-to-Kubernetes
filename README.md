@@ -112,6 +112,10 @@ update ingress-nginx.yml to support tcp redirect for prometheus and alert manage
 kubectl apply -f ingress-nginx.yml
 kubectl apply -f tcp-ingress-config.yml
 ```
+select the node that run ingress-controller, in this excercise we choose to run controller on master-node
+```
+kubectl label node master-node role=ingress-controller
+```
 5. Install helm and deploy kube-prometheus
 install helm
 ```
